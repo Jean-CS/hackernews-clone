@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Button from './button';
+
 import isSearched from '../utils/is-searched';
 
 class Table extends Component {
@@ -22,9 +24,7 @@ class Table extends Component {
               <span>{item.num_comments}</span>
               <span>{item.points}</span>
               <span>
-                <button onClick={onHandleDismiss} type="button">
-                  Dismiss
-                </button>
+                <Button onClick={onHandleDismiss}>Dismiss</Button>
               </span>
             </li>
           );
