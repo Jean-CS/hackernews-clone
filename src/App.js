@@ -21,15 +21,21 @@ const list = [
   },
 ];
 
+// higher order function | ES6
+const isSearched = searchTerm => item =>
+  item.title.toLowerCase().includes(searchTerm.toLowerCase());
+
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       list,
+      searchTerm: '',
     };
 
     this.onDismiss = this.onDismiss.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
   }
 
   onDismiss(id) {
@@ -58,31 +64,43 @@ class App extends Component {
     this.setState({ list: updatedList });
   }
 
+  onSearchChange(event) {
+    this.setState({ searchTerm: event.target.value });
+  }
+
   render() {
     return (
-      <ul className="App">
-        {this.state.list.map(item => {
-          const onHandleDismiss = () => this.onDismiss(item.objectID);
+      <div className="App">
+        <form>
+          <input type="text" onChange={this.onSearchChange} />
+        </form>
+        <ul>
+          {this.state.list
+            .filter(isSearched(this.state.searchTerm))
+            .map(item => {
+              const onHandleDismiss = () =>
+                this.onDismiss(item.objectID);
 
-          return (
-            <li key={item.objectID}>
-              <span>
-                <a href={item.url} title={item.title}>
-                  {item.title}
-                </a>
-              </span>
-              <span>{item.author}</span>
-              <span>{item.num_comments}</span>
-              <span>{item.points}</span>
-              <span>
-                <button onClick={onHandleDismiss} type="button">
-                  Dismiss
-                </button>
-              </span>
-            </li>
-          );
-        })}
-      </ul>
+              return (
+                <li key={item.objectID}>
+                  <span>
+                    <a href={item.url} title={item.title}>
+                      {item.title}
+                    </a>
+                  </span>
+                  <span>{item.author}</span>
+                  <span>{item.num_comments}</span>
+                  <span>{item.points}</span>
+                  <span>
+                    <button onClick={onHandleDismiss} type="button">
+                      Dismiss
+                    </button>
+                  </span>
+                </li>
+              );
+            })}
+        </ul>
+      </div>
     );
   }
 }
