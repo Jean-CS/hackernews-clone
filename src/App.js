@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import Search from './components/search';
+import Table from './components/table';
+
 const list = [
   {
     title: 'React',
@@ -20,10 +23,6 @@ const list = [
     objectID: 1,
   },
 ];
-
-// higher order function | ES6
-const isSearched = searchTerm => item =>
-  item.title.toLowerCase().includes(searchTerm.toLowerCase());
 
 class App extends Component {
   constructor(props) {
@@ -73,37 +72,12 @@ class App extends Component {
 
     return (
       <div className="App">
-        <form>
-          <input
-            type="text"
-            onChange={this.onSearchChange}
-            value={searchTerm}
-          />
-        </form>
-        <ul>
-          {list.filter(isSearched(searchTerm)).map(item => {
-            const onHandleDismiss = () =>
-              this.onDismiss(item.objectID);
-
-            return (
-              <li key={item.objectID}>
-                <span>
-                  <a href={item.url} title={item.title}>
-                    {item.title}
-                  </a>
-                </span>
-                <span>{item.author}</span>
-                <span>{item.num_comments}</span>
-                <span>{item.points}</span>
-                <span>
-                  <button onClick={onHandleDismiss} type="button">
-                    Dismiss
-                  </button>
-                </span>
-              </li>
-            );
-          })}
-        </ul>
+        <Search onChange={this.onSearchChange} value={searchTerm} />
+        <Table
+          list={list}
+          pattern={searchTerm}
+          onDismiss={this.onDismiss}
+        />
       </div>
     );
   }
