@@ -61,26 +61,27 @@ class App extends Component {
   render() {
     return (
       <ul className="App">
-        {this.state.list.map(item => (
-          <li key={item.objectID}>
-            <span>
-              <a href={item.url} title={item.title}>
-                {item.title}
-              </a>
-            </span>
-            <span>{item.author}</span>
-            <span>{item.num_comments}</span>
-            <span>{item.points}</span>
-            <span>
-              <button
-                onClick={() => this.onDismiss(item.objectID)}
-                type="button"
-              >
-                Dismiss
-              </button>
-            </span>
-          </li>
-        ))}
+        {this.state.list.map(item => {
+          const onHandleDismiss = () => this.onDismiss(item.objectID);
+
+          return (
+            <li key={item.objectID}>
+              <span>
+                <a href={item.url} title={item.title}>
+                  {item.title}
+                </a>
+              </span>
+              <span>{item.author}</span>
+              <span>{item.num_comments}</span>
+              <span>{item.points}</span>
+              <span>
+                <button onClick={onHandleDismiss} type="button">
+                  Dismiss
+                </button>
+              </span>
+            </li>
+          );
+        })}
       </ul>
     );
   }
