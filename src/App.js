@@ -69,36 +69,40 @@ class App extends Component {
   }
 
   render() {
+    const { searchTerm, list } = this.state;
+
     return (
       <div className="App">
         <form>
-          <input type="text" onChange={this.onSearchChange} />
+          <input
+            type="text"
+            onChange={this.onSearchChange}
+            value={searchTerm}
+          />
         </form>
         <ul>
-          {this.state.list
-            .filter(isSearched(this.state.searchTerm))
-            .map(item => {
-              const onHandleDismiss = () =>
-                this.onDismiss(item.objectID);
+          {list.filter(isSearched(searchTerm)).map(item => {
+            const onHandleDismiss = () =>
+              this.onDismiss(item.objectID);
 
-              return (
-                <li key={item.objectID}>
-                  <span>
-                    <a href={item.url} title={item.title}>
-                      {item.title}
-                    </a>
-                  </span>
-                  <span>{item.author}</span>
-                  <span>{item.num_comments}</span>
-                  <span>{item.points}</span>
-                  <span>
-                    <button onClick={onHandleDismiss} type="button">
-                      Dismiss
-                    </button>
-                  </span>
-                </li>
-              );
-            })}
+            return (
+              <li key={item.objectID}>
+                <span>
+                  <a href={item.url} title={item.title}>
+                    {item.title}
+                  </a>
+                </span>
+                <span>{item.author}</span>
+                <span>{item.num_comments}</span>
+                <span>{item.points}</span>
+                <span>
+                  <button onClick={onHandleDismiss} type="button">
+                    Dismiss
+                  </button>
+                </span>
+              </li>
+            );
+          })}
         </ul>
       </div>
     );
