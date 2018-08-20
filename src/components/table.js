@@ -4,9 +4,7 @@ import Button from './button';
 
 import isSearched from '../utils/is-searched';
 
-function Table(props) {
-  const { list, pattern, onDismiss } = props;
-
+function Table({ list, pattern, onDismiss }) {
   return (
     <ul>
       {list.filter(isSearched(pattern)).map(item => {
