@@ -47,11 +47,25 @@ class App extends Component {
 
     // OR
 
-    const updatedList = this.state.list.filter(
+    const updatedHits = this.state.result.hits.filter(
       item => item.objectID !== id,
     );
 
-    this.setState({ list: updatedList });
+    this.setState({
+      // ES6
+      result: {
+        ...this.state.result,
+        hits: updatedHits,
+      },
+
+      // SAME AS
+
+      // ES5
+      // result: Object.assign(
+      //   {},
+      //   this.state.result, { hits: updatedHits }
+      // ),
+    });
   }
 
   onSearchChange(event) {
