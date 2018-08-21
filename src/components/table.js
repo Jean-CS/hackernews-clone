@@ -2,8 +2,6 @@ import React from 'react';
 
 import Button from './button';
 
-import isSearched from '../utils/is-searched';
-
 const largeColumn = {
   width: '40%',
 };
@@ -16,9 +14,9 @@ const smallColumn = {
   width: '10%',
 };
 
-const Table = ({ list, pattern, onDismiss }) => (
+const Table = ({ list, onDismiss }) => (
   <ul className="table">
-    {list.filter(isSearched(pattern)).map(item => {
+    {list.map(item => {
       const onHandleDismiss = () => onDismiss(item.objectID);
 
       return (

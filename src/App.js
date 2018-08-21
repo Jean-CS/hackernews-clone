@@ -20,8 +20,21 @@ class App extends Component {
     };
 
     this.setSearchTopStories = this.setSearchTopStories.bind(this);
-    this.onDismiss = this.onDismiss.bind(this);
+    this.fetchSearchTopStories = this.fetchSearchTopStories.bind(
+      this,
+    );
+    this.onSearchSubmit = this.onSearchSubmit.bind(this);
     this.onSearchChange = this.onSearchChange.bind(this);
+    this.onDismiss = this.onDismiss.bind(this);
+  }
+
+  fetchSearchTopStories(searchTerm) {
+    const apiUrl = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`;
+
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(result => this.setSearchTopStories(result))
+      .catch(error => error);
   }
 
   setSearchTopStories(result) {
@@ -68,18 +81,19 @@ class App extends Component {
     });
   }
 
+  onSearchSubmit(event) {
+    const { searchTerm } = this.state;
+    this.fetchSearchTopStories(searchTerm);
+    event.preventDefault();
+  }
+
   onSearchChange(event) {
     this.setState({ searchTerm: event.target.value });
   }
 
   componentDidMount() {
     const { searchTerm } = this.state;
-    const apiUrl = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`;
-
-    fetch(apiUrl)
-      .then(responce => responce.json())
-      .then(result => this.setSearchTopStories(result))
-      .catch(error => error);
+    this.fetchSearchTopStories(searchTerm);
   }
 
   render() {
@@ -88,17 +102,17 @@ class App extends Component {
     return (
       <div className="page">
         <div className="interactions">
-          <Search onChange={this.onSearchChange} value={searchTerm}>
+          <Search
+            value={searchTerm}
+            onChange={this.onSearchChange}
+            onSubmit={this.onSearchSubmit}
+          >
             Search
           </Search>
         </div>
 
         {result && (
-          <Table
-            list={result.hits}
-            pattern={searchTerm}
-            onDismiss={this.onDismiss}
-          />
+          <Table list={result.hits} onDismiss={this.onDismiss} />
         )}
       </div>
     );
