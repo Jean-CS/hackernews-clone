@@ -20,7 +20,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      results: null,
+      results: [],
       // pointer to current result in the cache
       searchKey: '',
       // cant be used for the above because it changes everytime you type in the search field
