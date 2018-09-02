@@ -63,42 +63,16 @@ class App extends Component {
   }
 
   onDismiss(id) {
-    // const updatedList = this.state.list.filter(function isNotId(item) {
-    //   return item.objectID !== id;
-    // });
+    const { searchKey, results } = this.state;
+    const { hits, page } = results[searchKey];
 
-    // OR
-
-    // function isNotId(item) {
-    //   return item.objectID !== id;
-    // }
-    // const updatedList = this.state.list.filter(isNotId);
-
-    // OR
-
-    // const isNotId = item => item.objectID !== id;
-    // const updatedList = this.state.list.filter(isNotId);
-
-    // OR
-
-    const updatedHits = this.state.result.hits.filter(
-      item => item.objectID !== id,
-    );
+    const updatedHits = hits.filter(item => item.objectID !== id);
 
     this.setState({
-      // ES6
-      result: {
-        ...this.state.result,
-        hits: updatedHits,
+      results: {
+        ...results,
+        [searchKey]: { hits: updatedHits, page },
       },
-
-      // SAME AS
-
-      // ES5
-      // result: Object.assign(
-      //   {},
-      //   this.state.result, { hits: updatedHits }
-      // ),
     });
   }
 
